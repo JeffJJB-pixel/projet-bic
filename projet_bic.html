@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plus et Moins-Values en BIC — DUPONT INDUSTRIE</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0f1e3c;
+  --blue: #1a3a6b;
+  --accent: #2563eb;
+  --accent2: #0ea5e9;
+  --gold: #d97706;
+  --green: #059669;
+  --red: #dc2626;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --radius: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 60%, #1e4799 100%);
+  color: white;
+  padding: 80px 40px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(37,99,235,0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero-label::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--accent2);
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  max-width: 700px;
+}
+.hero h1 span { color: var(--accent2); }
+.hero-sub {
+  font-size: 17px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.75);
+  max-width: 560px;
+  margin-bottom: 40px;
+}
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.badge {
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid;
+}
+.badge-blue { background: rgba(37,99,235,0.2); border-color: rgba(37,99,235,0.5); color: #93c5fd; }
+.badge-teal { background: rgba(14,165,233,0.2); border-color: rgba(14,165,233,0.5); color: #7dd3fc; }
+.badge-gold { background: rgba(217,119,6,0.2); border-color: rgba(217,119,6,0.5); color: #fcd34d; }
+
+/* NAV */
+nav {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0 40px;
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+}
+nav::-webkit-scrollbar { display: none; }
+.nav-btn {
+  padding: 16px 20px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.nav-btn:hover { color: var(--accent); }
+.nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* LAYOUT */
+.container { max-width: 920px; margin: 0 auto; padding: 60px 40px; }
+
+/* SECTIONS */
+.section { display: none; }
+.section.active { display: block; }
+
+/* CARDS */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin-bottom: 24px;
+}
+.card-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+/* HEADINGS */
+h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  margin-top: 48px;
+}
+h2:first-child { margin-top: 0; }
+h2 .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-right: 12px;
+  vertical-align: middle;
+}
+h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 28px 0 12px;
+  padding-left: 14px;
+  border-left: 3px solid var(--accent);
+}
+p { margin-bottom: 14px; font-size: 15px; color: var(--text); }
+
+/* FORMULA BOX */
+.formula {
+  background: var(--navy);
+  color: #93c5fd;
+  font-family: 'DM Mono', 'Courier New', monospace;
+  font-size: 14px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  margin: 16px 0;
+  border-left: 4px solid var(--accent);
+  letter-spacing: 0.02em;
+}
+
+/* INFO BOXES */
+.info-box {
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 16px 0;
+  border-left: 4px solid;
+}
+.info-blue { background: #eff6ff; border-color: var(--accent); }
+.info-blue .info-title { color: var(--accent); }
+.info-green { background: #ecfdf5; border-color: var(--green); }
+.info-green .info-title { color: var(--green); }
+.info-red { background: #fef2f2; border-color: var(--red); }
+.info-red .info-title { color: var(--red); }
+.info-gold { background: #fffbeb; border-color: var(--gold); }
+.info-gold .info-title { color: var(--gold); }
+.info-title { font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+.info-box p { margin-bottom: 6px; font-size: 14px; }
+.info-box p:last-child { margin-bottom: 0; }
+
+/* TABLE */
+.table-wrap { overflow-x: auto; margin: 20px 0; border-radius: 10px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th {
+  background: var(--navy);
+  color: white;
+  padding: 12px 16px;
+  text-align: left;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: #f8fafc; }
+.tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.tag-ct { background: #fef3c7; color: #92400e; }
+.tag-lt { background: #d1fae5; color: #065f46; }
+.tag-mv { background: #fee2e2; color: #991b1b; }
+
+/* GRID */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+@media(max-width:600px){ .grid2 { grid-template-columns: 1fr; } }
+
+.stat-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+.stat-card .stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.stat-card .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* SCHEMA */
+.schema-container {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin: 24px 0;
+  overflow-x: auto;
+  text-align: center;
+}
+.schema-container svg { max-width: 100%; height: auto; }
+
+/* BIEN CARDS */
+.bien-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.bien-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 24px;
+  background: var(--navy);
+  color: white;
+}
+.bien-num {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.bien-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; }
+.bien-sub { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.bien-body { padding: 20px 24px; }
+.bien-data {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.data-item { background: #f8fafc; border-radius: 8px; padding: 12px 14px; }
+.data-item .dl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-bottom: 2px; }
+.data-item .dv { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; color: var(--navy); }
+
+/* RESULT BOX */
+.result-box {
+  border-radius: 8px;
+  padding: 14px 18px;
+  border-left: 4px solid;
+  margin-top: 14px;
+}
+.result-ct { background: #fffbeb; border-color: var(--gold); }
+.result-lt { background: #ecfdf5; border-color: var(--green); }
+.result-mv { background: #fef2f2; border-color: var(--red); }
+.result-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.result-ct .result-label { color: var(--gold); }
+.result-lt .result-label { color: var(--green); }
+.result-mv .result-label { color: var(--red); }
+.result-box p { font-size: 13.5px; margin-bottom: 0; }
+
+/* PARTIE 4 */
+.error-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.error-header {
+  background: #fef2f2;
+  border-bottom: 1px solid #fecaca;
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.error-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--red);
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.error-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; color: #991b1b; }
+.error-body { padding: 18px 22px; }
+
+.correct-card {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-top: 12px;
+}
+.correct-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green); margin-bottom: 6px; }
+
+/* ORAL */
+.question-item {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.question-toggle {
+  width: 100%;
+  text-align: left;
+  padding: 18px 22px;
+  background: none;
+  border: none;
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  transition: background 0.15s;
+}
+.question-toggle:hover { background: #f8fafc; }
+.question-toggle .arrow {
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  flex-shrink: 0;
+  transition: transform 0.25s;
+}
+.question-toggle.open .arrow { transform: rotate(180deg); }
+.question-answer {
+  display: none;
+  padding: 0 22px 18px;
+  font-size: 14.5px;
+  color: var(--text);
+  line-height: 1.75;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+.question-answer.open { display: block; }
+
+/* PILLS */
+.pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+.pill { padding: 6px 14px; border-radius: 100px; font-size: 13px; font-weight: 500; }
+.pill-blue { background: #dbeafe; color: #1d4ed8; }
+.pill-green { background: #d1fae5; color: #065f46; }
+.pill-red { background: #fee2e2; color: #991b1b; }
+.pill-gold { background: #fef3c7; color: #92400e; }
+
+/* SCROLL ANIM */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeUp 0.5s ease forwards; }
+
+/* FOOTER */
+footer {
+  background: var(--navy);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 30px 40px;
+  font-size: 13px;
+  margin-top: 80px;
+}
+footer strong { color: white; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">Projet Fiscalité BIC</div>
+  <h1>Plus et Moins-Values<br><span>en BIC</span></h1>
+  <p class="hero-sub">Cours complet, cas pratique DUPONT INDUSTRIE, schéma de qualification et analyse critique de l'IA.</p>
+  <div class="hero-badges">
+    <span class="badge badge-blue">BIC / Impôt sur le Revenu</span>
+    <span class="badge badge-teal">Taux 2026 à jour</span>
+    <span class="badge badge-gold">Brevets · Titres · CT/LT</span>
+  </div>
+</div>
+
+<nav>
+  <button class="nav-btn active" onclick="showSection('synthese',this)">A. Synthèse</button>
+  <button class="nav-btn" onclick="showSection('schema',this)">B. Schéma</button>
+  <button class="nav-btn" onclick="showSection('exercice',this)">C. Cas pratique</button>
+  <button class="nav-btn" onclick="showSection('analyse',this)">D. Analyse IA</button>
+  <button class="nav-btn" onclick="showSection('oral',this)">E. Oral</button>
+</nav>
+
+<!-- ══════════════════════════ SYNTHÈSE ══════════════════════════ -->
+<div id="synthese" class="section active">
+<div class="container">
+
+<h2><span class="num">1</span> Définitions fondamentales</h2>
+
+<p>Une plus ou moins-value naît à chaque fois qu'une entreprise vend un bien inscrit à l'actif de son bilan. Il ne s'agit pas des ventes courantes de marchandises, mais des éléments durables : machines, véhicules, terrains, brevets, titres.</p>
+
+<div class="formula">VNC = Valeur d'origine − Amortissements cumulés</div>
+<div class="formula">Plus ou moins-value = Prix de cession − VNC</div>
+
+<div class="grid2">
+  <div class="info-box info-green">
+    <div class="info-title">Plus-value</div>
+    <p>Résultat positif : prix de cession supérieur à la VNC. On a vendu plus cher que ce que le bien valait dans les comptes.</p>
+  </div>
+  <div class="info-box info-red">
+    <div class="info-title">Moins-value</div>
+    <p>Résultat négatif : prix de cession inférieur à la VNC. On a vendu moins cher que ce que le bien valait dans les comptes.</p>
+  </div>
+</div>
+
+<div class="info-box info-blue">
+  <div class="info-title">Règle importante</div>
+  <p>Pour chaque exercice, on ne détermine qu'une seule plus-value ou moins-value nette à court terme, et qu'une seule plus-value ou moins-value nette à long terme. Toutes les PV/MV CT de l'année se compensent entre elles, idem pour le LT.</p>
+</div>
+
+<h2><span class="num">2</span> Qualification CT ou LT</h2>
+<p>Deux critères à analyser dans l'ordre.</p>
+
+<div class="info-box info-gold" style="margin-bottom:12px">
+  <div class="info-title">Question 1 — Durée de détention</div>
+  <p><strong>Moins de 2 ans :</strong> toujours Court Terme, peu importe la nature du bien.</p>
+  <p><strong>Plus de 2 ans :</strong> passer à la question 2.</p>
+</div>
+<div class="info-box info-gold">
+  <div class="info-title">Question 2 — Le bien est-il amortissable ?</div>
+  <p><strong>Non</strong> (terrain, fonds de commerce, titres) → 100 % Long Terme.</p>
+  <p><strong>Oui</strong> (matériel, véhicule, brevet) → règle mixte : CT = amortissements, LT = excédent au-delà du prix d'achat.</p>
+</div>
+
+<div class="table-wrap" style="margin-top:20px">
+  <table>
+    <thead><tr><th>Bien / Durée</th><th>Moins de 2 ans</th><th>Plus de 2 ans</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Non amortissable</strong><br><span style="color:var(--muted);font-size:13px">terrain, fonds, titres</span></td>
+        <td><span class="tag tag-ct">100 % CT</span></td>
+        <td><span class="tag tag-lt">100 % LT</span></td>
+      </tr>
+      <tr>
+        <td><strong>Amortissable</strong><br><span style="color:var(--muted);font-size:13px">matériel, véhicule, brevet</span></td>
+        <td><span class="tag tag-ct">100 % CT</span></td>
+        <td><span class="tag tag-ct">CT = amortissements</span> + <span class="tag tag-lt">LT = surplus</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h2><span class="num">3</span> Traitement fiscal — les 4 cas</h2>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Situation</th><th>Ce qu'on fait</th><th>Imposition</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="tag tag-mv">MV CT</span></td>
+        <td>Rien à faire d'extra-comptable</td>
+        <td>Déjà dans le résultat, réduit le bénéfice soumis au barème IR</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-ct">PV CT</span></td>
+        <td>Rien à faire (option étalement 3 ans)</td>
+        <td>Barème progressif IR + cotisations sociales TNS</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-lt">PV LT</span></td>
+        <td><strong>Déduction</strong> extra-comptable</td>
+        <td>12,8 % IR + 17,2 % PS = <strong>30 % PFU</strong></td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-mv">MV LT</span></td>
+        <td><strong>Réintégration</strong> dans le résultat</td>
+        <td>Imputable sur PV LT pendant 10 ans</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="info-box info-red">
+  <div class="info-title">Attention — cotisations TNS</div>
+  <p>Même si une PV CT est exonérée d'IR (art. 151 septies…), elle reste dans l'assiette des cotisations sociales TNS. L'exonération supprime l'IR, pas les cotisations.</p>
+</div>
+
+<h2><span class="num">4</span> Brevets — taux spécifique 10 %</h2>
+
+<div class="grid2">
+  <div class="info-box info-blue">
+    <div class="info-title">Cession de brevet</div>
+    <p>L'entreprise vend définitivement ses droits. Elle ne peut plus exploiter l'objet du brevet.</p>
+    <p><strong>Résultat net = Prix de cession − Dépenses R&D de l'exercice</strong></p>
+    <p>Imposition : <strong>10 %</strong> sur ce résultat net.</p>
+  </div>
+  <div class="info-box info-blue">
+    <div class="info-title">Concession de brevet</div>
+    <p>L'entreprise reste propriétaire, elle autorise un tiers à exploiter, contre redevances.</p>
+    <p><strong>Résultat net = Redevances − Dépenses R&D de l'exercice</strong></p>
+    <p>Imposition : <strong>10 %</strong> sur ce résultat net.</p>
+  </div>
+</div>
+
+<div class="info-box info-gold">
+  <div class="info-title">Règle mixte sur le brevet</div>
+  <p>Le brevet est amortissable. Si détenu plus de 2 ans : CT = amortissements, LT = excédent. Le taux de 10 % s'applique sur le résultat net (après R&D), pas sur la PV brute.</p>
+</div>
+
+<h2><span class="num">5</span> Titres de participation</h2>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Situation</th><th>Qualification fiscale</th><th>Traitement</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Titres détenus depuis <strong>plus de 2 ans</strong></td>
+        <td><span class="tag tag-lt">Long terme</span></td>
+        <td>Déduction extra-comptable, 30 % PFU en BIC/IR</td>
+      </tr>
+      <tr>
+        <td>Titres détenus depuis <strong>moins de 2 ans</strong></td>
+        <td>Produit ou charge ordinaire</td>
+        <td>Dans le résultat fiscal, rien à faire de spécial</td>
+      </tr>
+      <tr>
+        <td>Titres moins de 2 ans, cédés <strong>en même temps</strong> que titres plus de 2 ans de même nature</td>
+        <td><span class="tag tag-ct">Court terme</span></td>
+        <td>Règle CT (pas de déduction spéciale)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="info-box info-red">
+  <div class="info-title">BIC/IR ≠ IS — ne pas confondre</div>
+  <p>En IS, les titres de participation détenus plus de 2 ans bénéficient d'une quasi-exonération (0 % + réintégration d'une QPFC de 12 %, taux effectif environ 3 %). Ce régime IS n'existe pas en BIC/IR : ici, c'est 30 % PFU. Confusion très fréquente à l'oral.</p>
+</div>
+
+<h2><span class="num">6</span> Exonérations principales</h2>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Article CGI</th><th>Condition principale</th><th>Portée</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Art. 151 septies</strong></td>
+        <td>CA inférieur à 250 000 € (ventes) ou 90 000 € (services) + activité depuis 5 ans</td>
+        <td>Totale ou partielle</td>
+      </tr>
+      <tr>
+        <td><strong>Art. 151 septies A</strong></td>
+        <td>Valeur entreprise inférieure à 500 000 € + départ à la retraite</td>
+        <td>Totale (hors prélèvements sociaux)</td>
+      </tr>
+      <tr>
+        <td><strong>Art. 238 quindecies</strong></td>
+        <td>Transmission à titre onéreux, valeur inférieure à 500 000 €</td>
+        <td>Totale sous 300 000 €, partielle entre 300 000 et 500 000 €</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════ SCHÉMA ══════════════════════════ -->
+<div id="schema" class="section">
+<div class="container">
+<h2><span class="num">2</span> Schéma de qualification</h2>
+<p>Arbre de décision complet pour qualifier et imposer toute plus-value en BIC.</p>
+<div class="schema-container">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" style="max-width:860px;width:100%">
+<defs>
+<marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
+</marker>
+</defs>
+<rect width="900" height="1100" fill="#f8fafc"/>
+<!-- TITRE -->
+<rect x="50" y="12" width="800" height="36" rx="8" fill="#0f1e3c"/>
+<text font-family="'Syne',sans-serif" font-size="14" font-weight="700" fill="white" x="450" y="30" text-anchor="middle" dominant-baseline="central">Qualification et imposition d'une plus-value en BIC</text>
+<!-- DÉBUT -->
+<rect x="350" y="62" width="200" height="34" rx="17" fill="#334155" stroke="none"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="white" x="450" y="79" text-anchor="middle" dominant-baseline="central">DÉBUT</text>
+<line x1="450" y1="96" x2="450" y2="114" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<!-- CESSION -->
+<rect x="250" y="114" width="400" height="40" rx="6" fill="#1a3a6b"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="white" x="450" y="129" text-anchor="middle" dominant-baseline="central">Cession d'un élément de l'actif immobilisé</text>
+<text font-family="sans-serif" font-size="10" fill="#93c5fd" x="450" y="145" text-anchor="middle" dominant-baseline="central">Vente, apport, donation, cessation, sinistre…</text>
+<line x1="450" y1="154" x2="450" y2="172" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<!-- CALCUL -->
+<rect x="230" y="172" width="440" height="40" rx="6" fill="#1a3a6b"/>
+<text font-family="sans-serif" font-size="13" font-weight="600" fill="white" x="450" y="187" text-anchor="middle" dominant-baseline="central">Calcul : Plus ou moins-value = Prix de cession − VNC</text>
+<text font-family="sans-serif" font-size="10" fill="#93c5fd" x="450" y="203" text-anchor="middle" dominant-baseline="central">VNC = Valeur d'origine − Amortissements cumulés</text>
+<line x1="450" y1="212" x2="450" y2="228" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<!-- LOSANGE 1 -->
+<polygon points="450,228 580,266 450,304 320,266" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="12" font-weight="700" fill="#713f12" x="450" y="260" text-anchor="middle" dominant-baseline="central">Résultat</text>
+<text font-family="sans-serif" font-size="12" font-weight="700" fill="#713f12" x="450" y="276" text-anchor="middle" dominant-baseline="central">positif ?</text>
+<!-- NON → MV -->
+<line x1="320" y1="266" x2="230" y2="266" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="11" font-weight="700" fill="#dc2626" x="273" y="259">NON</text>
+<rect x="80" y="242" width="150" height="48" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1"/>
+<text font-family="sans-serif" font-size="12" font-weight="700" fill="#334155" x="155" y="260" text-anchor="middle" dominant-baseline="central">Moins-value</text>
+<text font-family="sans-serif" font-size="9" fill="#64748b" x="155" y="278" text-anchor="middle" dominant-baseline="central">CT → réduit résultat BIC</text>
+<text font-family="sans-serif" font-size="9" fill="#64748b" x="155" y="288" text-anchor="middle" dominant-baseline="central">LT → reportée 10 ans</text>
+<!-- OUI ↓ -->
+<line x1="450" y1="304" x2="450" y2="322" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="11" font-weight="700" fill="#059669" x="458" y="318">OUI</text>
+<!-- LOSANGE 2 -->
+<polygon points="450,322 580,360 450,398 320,360" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="12" font-weight="700" fill="#713f12" x="450" y="354" text-anchor="middle" dominant-baseline="central">Bien</text>
+<text font-family="sans-serif" font-size="12" font-weight="700" fill="#713f12" x="450" y="370" text-anchor="middle" dominant-baseline="central">amortissable ?</text>
+<!-- BRANCHE NON amortissable -->
+<line x1="320" y1="360" x2="240" y2="360" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="11" font-weight="700" fill="#dc2626" x="278" y="353">NON</text>
+<!-- LOSANGE 3a -->
+<polygon points="170,328 230,360 170,392 110,360" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#713f12" x="170" y="354" text-anchor="middle" dominant-baseline="central">Durée</text>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#713f12" x="170" y="368" text-anchor="middle" dominant-baseline="central">&lt; 2 ans?</text>
+<line x1="170" y1="392" x2="170" y2="412" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#dc2626" x="178" y="408">OUI</text>
+<rect x="100" y="412" width="140" height="30" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="12" font-weight="700" fill="#92400e" x="170" y="427" text-anchor="middle" dominant-baseline="central">PVCT</text>
+<line x1="110" y1="360" x2="52" y2="360" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#059669" x="79" y="353">NON</text>
+<rect x="18" y="344" width="34" height="30" rx="6" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#065f46" x="35" y="359" text-anchor="middle" dominant-baseline="central">PVLT</text>
+<!-- BRANCHE OUI amortissable -->
+<line x1="580" y1="360" x2="660" y2="360" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="11" font-weight="700" fill="#059669" x="618" y="353">OUI</text>
+<!-- LOSANGE 3b -->
+<polygon points="740,328 800,360 740,392 680,360" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#713f12" x="740" y="354" text-anchor="middle" dominant-baseline="central">Durée</text>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#713f12" x="740" y="368" text-anchor="middle" dominant-baseline="central">&lt; 2 ans?</text>
+<line x1="740" y1="392" x2="740" y2="412" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#dc2626" x="748" y="408">OUI</text>
+<rect x="670" y="412" width="140" height="30" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="12" font-weight="700" fill="#92400e" x="740" y="427" text-anchor="middle" dominant-baseline="central">PVCT</text>
+<!-- NON ≥2ans amortissable → losange 4 -->
+<line x1="800" y1="360" x2="860" y2="360" stroke="#475569" stroke-width="1.5"/>
+<line x1="860" y1="360" x2="860" y2="480" stroke="#475569" stroke-width="1.5"/>
+<line x1="740" y1="480" x2="860" y2="480" stroke="#475569" stroke-width="1.5"/>
+<line x1="740" y1="460" x2="740" y2="480" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#059669" x="810" y="353">NON ≥2 ans</text>
+<!-- LOSANGE 4 -->
+<polygon points="740,460 820,492 740,524 660,492" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#713f12" x="740" y="484" text-anchor="middle" dominant-baseline="central">PV &gt;</text>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#713f12" x="740" y="498" text-anchor="middle" dominant-baseline="central">amortis. ?</text>
+<!-- NON → PVCT seule -->
+<line x1="660" y1="492" x2="600" y2="492" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#dc2626" x="628" y="485">NON</text>
+<rect x="530" y="476" width="70" height="30" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="11" font-weight="700" fill="#92400e" x="565" y="491" text-anchor="middle" dominant-baseline="central">PVCT</text>
+<!-- OUI → MIXTE -->
+<line x1="740" y1="524" x2="740" y2="546" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#059669" x="748" y="542">OUI</text>
+<rect x="650" y="546" width="180" height="44" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="11" font-weight="700" fill="#92400e" x="740" y="562" text-anchor="middle" dominant-baseline="central">Résultat mixte</text>
+<text font-family="sans-serif" font-size="9" fill="#78350f" x="740" y="578" text-anchor="middle" dominant-baseline="central">CT = amortissements / LT = surplus</text>
+<!-- CONVERGENCE vers exo y=660 -->
+<line x1="170" y1="442" x2="170" y2="660" stroke="#cbd5e1" stroke-width="0.8"/>
+<line x1="170" y1="427" x2="170" y2="660" stroke="#cbd5e1" stroke-width="0.8"/>
+<line x1="740" y1="590" x2="740" y2="660" stroke="#cbd5e1" stroke-width="0.8"/>
+<line x1="565" y1="506" x2="565" y2="660" stroke="#cbd5e1" stroke-width="0.8"/>
+<line x1="170" y1="660" x2="740" y2="660" stroke="#cbd5e1" stroke-width="0.8"/>
+<line x1="450" y1="660" x2="450" y2="678" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<!-- EXONÉRATIONS -->
+<rect x="270" y="678" width="360" height="32" rx="6" fill="#1a3a6b"/>
+<text font-family="sans-serif" font-size="12" font-weight="600" fill="white" x="450" y="694" text-anchor="middle" dominant-baseline="central">Recherche d'une exonération</text>
+<line x1="450" y1="710" x2="450" y2="722" stroke="#475569" stroke-width="1.5"/>
+<!-- 3 branches -->
+<line x1="260" y1="722" x2="640" y2="722" stroke="#cbd5e1" stroke-width="0.8"/>
+<line x1="260" y1="722" x2="260" y2="738" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="450" y1="722" x2="450" y2="738" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="640" y1="722" x2="640" y2="738" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="160" y="738" width="200" height="40" rx="6" fill="#d1fae5" stroke="#059669" stroke-width="1"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#065f46" x="260" y="754" text-anchor="middle" dominant-baseline="central">Art. 151 septies</text>
+<text font-family="sans-serif" font-size="9" fill="#047857" x="260" y="769" text-anchor="middle" dominant-baseline="central">Exon. selon recettes</text>
+<rect x="350" y="738" width="200" height="40" rx="6" fill="#d1fae5" stroke="#059669" stroke-width="1"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#065f46" x="450" y="754" text-anchor="middle" dominant-baseline="central">Art. 151 septies A</text>
+<text font-family="sans-serif" font-size="9" fill="#047857" x="450" y="769" text-anchor="middle" dominant-baseline="central">Départ à la retraite</text>
+<rect x="540" y="738" width="200" height="40" rx="6" fill="#d1fae5" stroke="#059669" stroke-width="1"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#065f46" x="640" y="754" text-anchor="middle" dominant-baseline="central">Art. 238 quindecies</text>
+<text font-family="sans-serif" font-size="9" fill="#047857" x="640" y="769" text-anchor="middle" dominant-baseline="central">Transmission entreprise</text>
+<!-- Convergence → losange exo -->
+<line x1="260" y1="778" x2="260" y2="796" stroke="#cbd5e1" stroke-width="0.8"/>
+<line x1="450" y1="778" x2="450" y2="796" stroke="#cbd5e1" stroke-width="0.8"/>
+<line x1="640" y1="778" x2="640" y2="796" stroke="#cbd5e1" stroke-width="0.8"/>
+<line x1="260" y1="796" x2="640" y2="796" stroke="#cbd5e1" stroke-width="0.8"/>
+<line x1="450" y1="796" x2="450" y2="812" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<polygon points="450,812 560,844 450,876 340,844" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="11" font-weight="700" fill="#713f12" x="450" y="838" text-anchor="middle" dominant-baseline="central">Exonération</text>
+<text font-family="sans-serif" font-size="11" font-weight="700" fill="#713f12" x="450" y="854" text-anchor="middle" dominant-baseline="central">applicable ?</text>
+<!-- OUI → exonérée -->
+<line x1="340" y1="844" x2="270" y2="844" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#059669" x="303" y="837">OUI</text>
+<rect x="185" y="826" width="85" height="36" rx="6" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="11" font-weight="700" fill="#065f46" x="227" y="844" text-anchor="middle" dominant-baseline="central">Exonérée</text>
+<!-- NON → imposition -->
+<line x1="560" y1="844" x2="640" y2="844" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#dc2626" x="598" y="837">NON</text>
+<rect x="640" y="828" width="210" height="32" rx="6" fill="#1a3a6b"/>
+<text font-family="sans-serif" font-size="12" font-weight="600" fill="white" x="745" y="844" text-anchor="middle" dominant-baseline="central">Imposition</text>
+<!-- Final PVCT / PVLT -->
+<line x1="745" y1="860" x2="745" y2="876" stroke="#475569" stroke-width="1.5"/>
+<line x1="680" y1="876" x2="810" y2="876" stroke="#475569" stroke-width="1.5"/>
+<line x1="680" y1="876" x2="680" y2="892" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="810" y1="876" x2="810" y2="892" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="610" y="892" width="140" height="54" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="11" font-weight="700" fill="#92400e" x="680" y="910" text-anchor="middle" dominant-baseline="central">PVCT</text>
+<text font-family="sans-serif" font-size="9" fill="#78350f" x="680" y="924" text-anchor="middle" dominant-baseline="central">Barème IR + TNS</text>
+<text font-family="sans-serif" font-size="9" fill="#78350f" x="680" y="937" text-anchor="middle" dominant-baseline="central">Étalement 3 ans possible</text>
+<rect x="740" y="892" width="140" height="54" rx="6" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+<text font-family="sans-serif" font-size="11" font-weight="700" fill="#065f46" x="810" y="910" text-anchor="middle" dominant-baseline="central">PVLT</text>
+<text font-family="sans-serif" font-size="9" fill="#047857" x="810" y="924" text-anchor="middle" dominant-baseline="central">12,8 % + 17,2 % PS</text>
+<text font-family="sans-serif" font-size="9" fill="#047857" x="810" y="937" text-anchor="middle" dominant-baseline="central">= 30 % (PFU)</text>
+<!-- FIN -->
+<line x1="680" y1="946" x2="680" y2="980" stroke="#cbd5e1" stroke-width="0.8"/>
+<line x1="810" y1="946" x2="810" y2="980" stroke="#cbd5e1" stroke-width="0.8"/>
+<line x1="680" y1="980" x2="810" y2="980" stroke="#cbd5e1" stroke-width="0.8"/>
+<line x1="745" y1="980" x2="745" y2="998" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="660" y="998" width="170" height="30" rx="15" fill="#334155"/>
+<text font-family="sans-serif" font-size="12" font-weight="700" fill="white" x="745" y="1013" text-anchor="middle" dominant-baseline="central">Fin de l'analyse</text>
+<!-- LÉGENDE -->
+<rect x="18" y="820" width="150" height="110" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+<text font-family="sans-serif" font-size="10" font-weight="700" fill="#334155" x="93" y="836" text-anchor="middle">Légende</text>
+<rect x="26" y="845" width="50" height="18" rx="4" fill="#1a3a6b"/>
+<text font-family="sans-serif" font-size="9" fill="#334155" x="84" y="854" dominant-baseline="central">Étape</text>
+<polygon points="50,876 70,888 50,900 30,888" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+<text font-family="sans-serif" font-size="9" fill="#334155" x="84" y="888" dominant-baseline="central">Décision</text>
+<rect x="26" y="905" width="25" height="14" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="1"/>
+<text font-family="sans-serif" font-size="9" fill="#334155" x="60" y="912" dominant-baseline="central">PVCT</text>
+<rect x="90" y="905" width="25" height="14" rx="4" fill="#d1fae5" stroke="#059669" stroke-width="1"/>
+<text font-family="sans-serif" font-size="9" fill="#334155" x="124" y="912" dominant-baseline="central">PVLT</text>
+</svg>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════ EXERCICE ══════════════════════════ -->
+<div id="exercice" class="section">
+<div class="container">
+
+<h2><span class="num">3</span> Cas pratique — DUPONT INDUSTRIE</h2>
+
+<div class="info-box info-blue">
+  <div class="info-title">Contexte</div>
+  <p><strong>DUPONT INDUSTRIE</strong> est une exploitation individuelle soumise à l'IR en catégorie BIC, spécialisée dans la fabrication de pièces mécaniques pour l'automobile. En décembre N, cinq cessions sont réalisées. Calculer les PV/MV, les qualifier, puis déterminer le traitement fiscal.</p>
+</div>
+
+<div class="table-wrap" style="margin:24px 0">
+  <table>
+    <thead>
+      <tr>
+        <th>Bien</th><th>Valeur d'origine</th><th>Amortis. cumulés</th><th>Prix cession</th><th>Détention</th><th>Amortissable</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Tour numérique</strong></td><td>48 000 €</td><td>30 000 €</td><td>22 000 €</td><td>5 ans</td><td>Oui</td></tr>
+      <tr><td><strong>Entrepôt</strong></td><td>120 000 €</td><td>0 €</td><td>195 000 €</td><td>8 ans</td><td>Non</td></tr>
+      <tr><td><strong>Camionnette</strong></td><td>24 000 €</td><td>7 200 €</td><td>14 000 €</td><td>14 mois</td><td>Oui</td></tr>
+      <tr><td><strong>Brevet anti-usure</strong><br><span style="font-size:12px;color:var(--muted)">Dép. R&D exercice : 8 000 €</span></td><td>60 000 €</td><td>24 000 €</td><td>110 000 €</td><td>6 ans</td><td>Oui</td></tr>
+      <tr><td><strong>Titres participation</strong><br><span style="font-size:12px;color:var(--muted)">Filiale fournisseur</span></td><td>45 000 €</td><td>0 €</td><td>78 000 €</td><td>4 ans</td><td>Non</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>Correction détaillée</h3>
+
+<div class="bien-card">
+  <div class="bien-header">
+    <div class="bien-num">1</div>
+    <div><div class="bien-name">Tour numérique</div><div class="bien-sub">Amortissable — détenu 5 ans — règle mixte CT/LT</div></div>
+  </div>
+  <div class="bien-body">
+    <div class="bien-data">
+      <div class="data-item"><div class="dl">VNC</div><div class="dv">18 000 €</div></div>
+      <div class="data-item"><div class="dl">Résultat</div><div class="dv" style="color:var(--red)">−4 000 €</div></div>
+      <div class="data-item"><div class="dl">Qualification</div><div class="dv"><span class="tag tag-mv">MV CT</span></div></div>
+    </div>
+    <div class="formula">VNC = 48 000 − 30 000 = 18 000 €
+Résultat = 22 000 − 18 000 = −4 000 €</div>
+    <p style="font-size:14px">Bien amortissable détenu plus de 2 ans : règle mixte. La moins-value de 4 000 € est entièrement à court terme car elle est inférieure aux amortissements cumulés de 30 000 €.</p>
+    <div class="result-box result-mv">
+      <div class="result-label">Traitement fiscal</div>
+      <p>Rien à faire d'extra-comptable. La MV CT est déjà prise en compte dans le résultat comptable. Elle réduit directement le bénéfice imposable soumis au barème IR.</p>
+    </div>
+  </div>
+</div>
+
+<div class="bien-card">
+  <div class="bien-header">
+    <div class="bien-num">2</div>
+    <div><div class="bien-name">Entrepôt</div><div class="bien-sub">Non amortissable — détenu 8 ans — 100 % LT</div></div>
+  </div>
+  <div class="bien-body">
+    <div class="bien-data">
+      <div class="data-item"><div class="dl">VNC</div><div class="dv">120 000 €</div></div>
+      <div class="data-item"><div class="dl">Résultat</div><div class="dv" style="color:var(--green)">+75 000 €</div></div>
+      <div class="data-item"><div class="dl">Qualification</div><div class="dv"><span class="tag tag-lt">100 % LT</span></div></div>
+    </div>
+    <div class="formula">VNC = 120 000 € (aucun amortissement)
+PV = 195 000 − 120 000 = +75 000 €</div>
+    <p style="font-size:14px">Bien non amortissable détenu plus de 2 ans : 100 % long terme. Règle simple et directe.</p>
+    <div class="result-box result-lt">
+      <div class="result-label">Traitement fiscal</div>
+      <p>Déduction extra-comptable de 75 000 €. Imposition séparée à 30 % (12,8 % IR + 17,2 % PS). Impôt dû : 75 000 × 30 % = <strong>22 500 €</strong>.</p>
+    </div>
+  </div>
+</div>
+
+<div class="bien-card">
+  <div class="bien-header">
+    <div class="bien-num">3</div>
+    <div><div class="bien-name">Camionnette</div><div class="bien-sub">Amortissable — détenu 14 mois — 100 % CT automatique</div></div>
+  </div>
+  <div class="bien-body">
+    <div class="bien-data">
+      <div class="data-item"><div class="dl">VNC</div><div class="dv">16 800 €</div></div>
+      <div class="data-item"><div class="dl">Résultat</div><div class="dv" style="color:var(--red)">−2 800 €</div></div>
+      <div class="data-item"><div class="dl">Qualification</div><div class="dv"><span class="tag tag-mv">MV CT</span></div></div>
+    </div>
+    <div class="formula">VNC = 24 000 − 7 200 = 16 800 €
+Résultat = 14 000 − 16 800 = −2 800 €</div>
+    <p style="font-size:14px">Détention inférieure à 2 ans : automatiquement 100 % court terme. Peu importe que le bien soit amortissable ou non, la règle de durée prend le dessus.</p>
+    <div class="result-box result-mv">
+      <div class="result-label">Traitement fiscal</div>
+      <p>Rien à faire. La MV CT est dans le résultat comptable, elle réduit le bénéfice imposable.</p>
+    </div>
+  </div>
+</div>
+
+<div class="bien-card">
+  <div class="bien-header">
+    <div class="bien-num">4</div>
+    <div><div class="bien-name">Brevet procédé anti-usure</div><div class="bien-sub">Amortissable — détenu 6 ans — taux spécifique 10 %</div></div>
+  </div>
+  <div class="bien-body">
+    <div class="bien-data">
+      <div class="data-item"><div class="dl">VNC</div><div class="dv">36 000 €</div></div>
+      <div class="data-item"><div class="dl">PV brute</div><div class="dv" style="color:var(--green)">+74 000 €</div></div>
+      <div class="data-item"><div class="dl">PV CT</div><div class="dv">24 000 €</div></div>
+      <div class="data-item"><div class="dl">PV LT</div><div class="dv">50 000 €</div></div>
+    </div>
+    <div class="formula">VNC = 60 000 − 24 000 = 36 000 €
+PV brute = 110 000 − 36 000 = +74 000 €
+CT = 24 000 € (= amortissements cumulés)
+LT = 50 000 € (excédent : 110 000 − 60 000)</div>
+    <p style="font-size:14px">Règle mixte car amortissable et détenu plus de 2 ans. Mais attention : le brevet bénéficie d'un taux spécifique de 10 % sur le résultat net après déduction des dépenses R&D.</p>
+    <div class="formula">Résultat net cession = Prix de cession − Dépenses R&D
+= 110 000 − 8 000 = 102 000 € → taxé à 10 %</div>
+    <div class="result-box result-lt">
+      <div class="result-label">Traitement fiscal</div>
+      <p>PV CT de 24 000 € : rien à faire, barème IR + cotisations TNS.</p>
+      <p>PV LT de 50 000 € : déduction extra-comptable. Taux 10 % (spécifique brevets, pas 30 %). Impôt : 102 000 × 10 % = <strong>10 200 €</strong>.</p>
+    </div>
+  </div>
+</div>
+
+<div class="bien-card">
+  <div class="bien-header">
+    <div class="bien-num">5</div>
+    <div><div class="bien-name">Titres de participation</div><div class="bien-sub">Non amortissable — détenus 4 ans — 100 % LT en BIC/IR</div></div>
+  </div>
+  <div class="bien-body">
+    <div class="bien-data">
+      <div class="data-item"><div class="dl">VNC</div><div class="dv">45 000 €</div></div>
+      <div class="data-item"><div class="dl">Résultat</div><div class="dv" style="color:var(--green)">+33 000 €</div></div>
+      <div class="data-item"><div class="dl">Qualification</div><div class="dv"><span class="tag tag-lt">100 % LT</span></div></div>
+    </div>
+    <div class="formula">VNC = 45 000 € (pas d'amortissement)
+PV = 78 000 − 45 000 = +33 000 €</div>
+    <p style="font-size:14px">Titres non amortissables détenus plus de 2 ans : 100 % long terme. En BIC/IR, le taux est de 30 % PFU. Le régime IS (quasi-exonération à 0 %) ne s'applique absolument pas ici.</p>
+    <div class="result-box result-lt">
+      <div class="result-label">Traitement fiscal</div>
+      <p>Déduction extra-comptable de 33 000 €. Taux 30 % (BIC/IR). Impôt : 33 000 × 30 % = <strong>9 900 €</strong>.</p>
+    </div>
+  </div>
+</div>
+
+<h3>Compensation et résultat final</h3>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Catégorie</th><th>Plus-values</th><th>Moins-values</th><th>Solde net</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Court terme</strong></td>
+        <td style="color:var(--green)">+24 000 € (brevet CT)</td>
+        <td style="color:var(--red)">−4 000 € (tour)<br>−2 800 € (camionnette)</td>
+        <td><strong>+17 200 €</strong></td>
+      </tr>
+      <tr>
+        <td><strong>Long terme</strong></td>
+        <td style="color:var(--green)">+75 000 € (entrepôt)<br>+50 000 € (brevet LT)<br>+33 000 € (titres)</td>
+        <td>0 €</td>
+        <td><strong>+158 000 €</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="grid2" style="margin-top:20px">
+  <div class="stat-card">
+    <div class="stat-num" style="color:var(--gold)">17 200 €</div>
+    <div class="stat-label">PV CT nette — barème IR + TNS</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" style="color:var(--green)">158 000 €</div>
+    <div class="stat-label">PV LT nette — dont 108 000 € à 30 % et 50 000 € à 10 %</div>
+  </div>
+</div>
+
+<div class="info-box info-blue" style="margin-top:20px">
+  <div class="info-title">Récapitulatif fiscal</div>
+  <p><strong>PV CT de 17 200 € :</strong> rien à faire extra-comptable. Soumise au barème progressif IR + cotisations sociales TNS. Option étalement sur 3 ans possible.</p>
+  <p><strong>PV LT entrepôt + titres (108 000 €) :</strong> déduction extra-comptable, imposition à 30 %. Impôt total : 32 400 €.</p>
+  <p><strong>PV LT brevet (50 000 €, résultat net 102 000 €) :</strong> taux spécifique 10 %. Impôt : 10 200 €.</p>
+</div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════ ANALYSE IA ══════════════════════════ -->
+<div id="analyse" class="section">
+<div class="container">
+
+<h2><span class="num">4</span> Analyse critique de l'intelligence artificielle</h2>
+<p>Ce projet a été réalisé avec l'aide de l'IA. Voici une analyse honnête de ce qui s'est bien passé, de ce qui a mal tourné, et de ce que cela nous apprend sur l'utilisation de l'IA en fiscalité.</p>
+
+<h3>Les erreurs commises par l'IA</h3>
+
+<div class="error-card">
+  <div class="error-header">
+    <div class="error-icon">1</div>
+    <div class="error-title">Taux 30 % appliqué aux brevets au lieu de 10 %</div>
+  </div>
+  <div class="error-body">
+    <p style="font-size:14px">C'est l'erreur la plus grave du projet. Dans les premières versions, l'IA a appliqué le taux général de 30 % (PFU) aux plus-values sur brevets, exactement comme pour n'importe quelle plus-value long terme ordinaire. C'est faux. Le cours est clair : les brevets bénéficient d'un taux spécifique de 10 %, calculé sur le résultat net après déduction des dépenses de recherche et développement.</p>
+    <div class="correct-card">
+      <div class="correct-label">Impact concret sur le cas DUPONT</div>
+      <p style="font-size:13.5px">Sur notre brevet avec un résultat net de 102 000 € : avec 30 %, l'impôt aurait été de 30 600 €. Avec le taux correct de 10 %, il est de 10 200 €. L'erreur représente 20 400 € de différence sur un seul bien. Dans un cabinet comptable, ce type d'erreur a des conséquences réelles pour le client.</p>
+    </div>
+  </div>
+</div>
+
+<div class="error-card">
+  <div class="error-header">
+    <div class="error-icon">2</div>
+    <div class="error-title">La distinction cession / concession de brevet ignorée</div>
+  </div>
+  <div class="error-body">
+    <p style="font-size:14px">L'IA a d'abord présenté les brevets uniquement sous l'angle de la cession (vente définitive). Elle a omis la concession, qui est pourtant un cas fréquent dans les entreprises innovantes. Une entreprise qui loue son brevet contre des redevances est dans une situation différente d'une entreprise qui le vend. Le cours établit clairement deux formules de calcul distinctes.</p>
+    <div class="grid2" style="margin-top:12px">
+      <div class="info-box info-blue" style="margin:0">
+        <div class="info-title">Cession (vente)</div>
+        <p style="font-size:13px">Prix de cession − Dépenses R&D de l'exercice = Résultat net taxable à 10 %</p>
+      </div>
+      <div class="info-box info-blue" style="margin:0">
+        <div class="info-title">Concession (location)</div>
+        <p style="font-size:13px">Redevances de l'exercice − Dépenses R&D de l'exercice = Résultat net taxable à 10 %</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="error-card">
+  <div class="error-header">
+    <div class="error-icon">3</div>
+    <div class="error-title">Le cas particulier des titres cédés simultanément oublié</div>
+  </div>
+  <div class="error-body">
+    <p style="font-size:14px">L'IA a présenté les titres de façon trop simplifiée : détenus plus de 2 ans égal LT, moins de 2 ans égal produit ordinaire. Elle a oublié le troisième cas du cours : des titres détenus depuis moins de 2 ans mais cédés en même temps que des titres de même nature détenus depuis plus de 2 ans sont qualifiés de court terme (et non de produit ordinaire). Ce cas change la qualification fiscale et le traitement comptable.</p>
+  </div>
+</div>
+
+<div class="error-card">
+  <div class="error-header">
+    <div class="error-icon">4</div>
+    <div class="error-title">Confusion entre le régime BIC/IR et le régime IS pour les titres</div>
+  </div>
+  <div class="error-body">
+    <p style="font-size:14px">L'IA a plusieurs fois mentionné le régime IS pour les titres de participation (quasi-exonération à 0 % avec réintégration d'une quote-part de 12 %). Ce régime existe, mais il ne concerne que les sociétés soumises à l'impôt sur les sociétés. DUPONT INDUSTRIE est une exploitation individuelle en BIC/IR : ce régime IS n'existe tout simplement pas pour elle. Mentionner ce taux sans précaution crée une confusion directe sur l'imposition réelle.</p>
+  </div>
+</div>
+
+<h3>Ce que l'IA a fait correctement</h3>
+
+<div class="info-box info-green">
+  <div class="info-title">Points corrects dès le départ</div>
+  <p>La formule générale (prix de cession moins VNC) était juste. La logique de qualification CT/LT avec les deux critères (durée et amortissable) était correcte. Les quatre cas du cours (MV CT, PV CT, PV LT, MV LT) étaient bien identifiés. Le taux PFU de 30 % pour les PV LT ordinaires était exact. La structure d'ensemble du document correspondait aux consignes.</p>
+</div>
+
+<h3>Les limites structurelles de l'IA en fiscalité</h3>
+
+<div class="card" style="margin-bottom:16px">
+  <div class="card-title">Limite 1 — Elle ne sait pas ce qu'elle ne sait pas</div>
+  <p style="font-size:14px">L'IA a donné le taux de 30 % pour les brevets avec le même niveau de confiance que ses réponses exactes. Elle n'a signalé aucun doute. C'est la limite la plus dangereuse : une réponse fausse présentée avec assurance est difficile à détecter sans connaissance préalable du sujet. En fiscalité, où les taux et les règles sont précis, cela peut avoir des conséquences financières directes.</p>
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <div class="card-title">Limite 2 — Elle simplifie ce qui ne doit pas l'être</div>
+  <p style="font-size:14px">La fiscalité est pleine de cas particuliers que les généralités ne couvrent pas. L'IA présente la règle générale et passe sous silence les exceptions. Le cas des titres cédés simultanément illustre exactement cela : la règle générale était présente, mais le cas particulier du cours a été ignoré, alors qu'il change concrètement la qualification fiscale.</p>
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <div class="card-title">Limite 3 — Elle mélange les régimes fiscaux IR et IS</div>
+  <p style="font-size:14px">L'impôt sur le revenu et l'impôt sur les sociétés sont deux mondes avec des règles très différentes. L'IA les mélange régulièrement, notamment sur les titres et les brevets. Un étudiant qui ne maîtrise pas encore ces deux catégories risque de repartir avec une compréhension erronée des règles qui s'appliquent réellement à son cas.</p>
+</div>
+
+<div class="card">
+  <div class="card-title">Limite 4 — Elle ne connaît pas le cours du professeur</div>
+  <p style="font-size:14px">L'IA travaille avec ses données d'entraînement générales, pas avec le cours spécifique du professeur. Certaines formulations précises du cours (comme "rien à faire" pour les MV CT et PV CT, les deux formules exactes cession/concession pour les brevets, ou le cas particulier des titres) ne sont pas forcément représentées dans ses sources. L'IA généralise là où le cours est précis.</p>
+</div>
+
+<h3>Notre conclusion</h3>
+
+<p>L'IA est un outil utile pour structurer rapidement un document et générer des explications claires sur les grandes lignes. Mais en fiscalité, aller vite peut être très problématique. Les quatre erreurs relevées ici ne sont pas anodines : un taux mal appliqué sur un brevet, une confusion IS/IR sur les titres, un cas particulier ignoré — ce sont des erreurs qui existent aussi dans de vrais dossiers et qui ont de vraies conséquences financières.</p>
+
+<p>Ce projet nous a appris que la valeur d'un futur professionnel de la comptabilité ou de la fiscalité n'est pas de savoir utiliser l'IA, mais de savoir la corriger. L'IA peut rédiger une page en trente secondes. Encore faut-il savoir si cette page est juste.</p>
+
+<div class="info-box info-blue">
+  <div class="info-title">Ce qu'on retient</div>
+  <p>Utiliser l'IA sans base de connaissance préalable est risqué, surtout en droit et en fiscalité. L'IA est un accélérateur de travail, pas un remplaçant du raisonnement juridique. La vérification des sources officielles (CGI, BOFiP, cours du professeur) reste non négociable. Dans notre future carrière, nous utiliserons l'IA comme un assistant, pas comme une autorité.</p>
+</div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════ ORAL ══════════════════════════ -->
+<div id="oral" class="section">
+<div class="container">
+
+<h2><span class="num">5</span> Préparation à la restitution orale</h2>
+
+<div class="info-box info-blue">
+  <div class="info-title">Format : 5 minutes de présentation + 5 minutes de questions</div>
+  <p>0 à 1 min : accroche et objectifs. 1 à 2 min : définitions, VNC, les 4 cas, taux 2026. 2 à 3 min : schéma commenté. 3 à 4 min : cas pratique DUPONT. 4 à 5 min : analyse IA et conclusion.</p>
+</div>
+
+<h3>Questions probables — cliquez pour voir la réponse</h3>
+
+<div class="question-item">
+  <button class="question-toggle" onclick="toggleQ(this)">
+    Q1 — Quelle est la différence entre une PVCT et une PVLT ?
+    <span class="arrow">▼</span>
+  </button>
+  <div class="question-answer">
+    Deux critères dans l'ordre. D'abord la durée : si le bien est détenu depuis moins de 2 ans, c'est automatiquement CT. Si plus de 2 ans, on regarde ensuite si le bien est amortissable. S'il ne l'est pas, c'est 100 % LT. S'il l'est, on applique la règle mixte : CT pour la fraction égale aux amortissements, LT pour l'excédent. En termes d'imposition, le CT est soumis au barème progressif IR plus les cotisations TNS (jusqu'à 80 % et plus pour les hauts revenus), alors que le LT bénéficie du taux fixe de 30 % (PFU). La PVLT est donc nettement plus avantageuse fiscalement.
+  </div>
+</div>
+
+<div class="question-item">
+  <button class="question-toggle" onclick="toggleQ(this)">
+    Q2 — Que fait-on concrètement quand on a une PV LT dans la liasse fiscale ?
+    <span class="arrow">▼</span>
+  </button>
+  <div class="question-answer">
+    On effectue une déduction extra-comptable. Cela signifie qu'on sort la PV LT du résultat soumis au barème IR pour la taxer séparément au taux de 30 %. Sans cette déduction, la PV LT serait imposée avec le reste du résultat au barème progressif, ce qui serait beaucoup plus coûteux. La déduction se fait sur le tableau 2058-A de la liasse fiscale.
+  </div>
+</div>
+
+<div class="question-item">
+  <button class="question-toggle" onclick="toggleQ(this)">
+    Q3 — Pourquoi la MV LT ne réduit pas le bénéfice courant ?
+    <span class="arrow">▼</span>
+  </button>
+  <div class="question-answer">
+    Parce que si une perte relevant d'un régime privilégié (30 %) venait réduire un bénéfice imposé à un taux beaucoup plus élevé (barème + TNS), cela créerait un avantage fiscal non justifié. Le législateur a donc enfermé chaque catégorie dans son propre régime. La MV LT doit être réintégrée dans le résultat et ne peut s'imputer que sur des PV LT futures pendant 10 ans.
+  </div>
+</div>
+
+<div class="question-item">
+  <button class="question-toggle" onclick="toggleQ(this)">
+    Q4 — Quel est le taux pour un brevet en BIC/IR ?
+    <span class="arrow">▼</span>
+  </button>
+  <div class="question-answer">
+    Le taux spécifique est de 10 %, et non pas 30 %. Il s'applique sur le résultat net, c'est-à-dire le prix de cession (ou les redevances pour une concession) diminué des dépenses de R&D liées à cet actif au cours de l'exercice. Ce taux vaut aussi bien pour la cession (vente définitive) que pour la concession (location du droit d'exploitation). C'est le taux le plus avantageux du régime BIC/IR.
+  </div>
+</div>
+
+<div class="question-item">
+  <button class="question-toggle" onclick="toggleQ(this)">
+    Q5 — Comment sont imposés les titres de participation en BIC/IR ?
+    <span class="arrow">▼</span>
+  </button>
+  <div class="question-answer">
+    Les titres de participation sont des immobilisations non amortissables. La règle est donc : moins de 2 ans de détention = produit ou charge ordinaire dans le résultat, rien de spécial. Plus de 2 ans = 100 % long terme, déduction extra-comptable, imposition à 30 % PFU. Il existe un troisième cas : des titres détenus depuis moins de 2 ans mais cédés en même temps que des titres de même nature détenus depuis plus de 2 ans sont qualifiés de court terme. Attention : le régime IS (quasi-exonération à 0 %) ne s'applique absolument pas en BIC/IR. Cette confusion est la plus fréquente à l'oral.
+  </div>
+</div>
+
+<div class="question-item">
+  <button class="question-toggle" onclick="toggleQ(this)">
+    Q6 — Quels sont les risques d'utiliser l'IA en fiscalité ?
+    <span class="arrow">▼</span>
+  </button>
+  <div class="question-answer">
+    Sur ce projet, l'IA a commis quatre erreurs : elle a appliqué 30 % aux brevets au lieu de 10 %, elle a oublié la distinction cession/concession avec les formules de calcul différentes, elle a ignoré le cas particulier des titres cédés simultanément, et elle a mélangé les régimes IS et BIC/IR sur les titres. L'IA peut donner des réponses fausses avec autant de confiance que des réponses justes. En fiscalité, où les taux et les règles sont précis et leurs conséquences financières directes, cette limite est particulièrement problématique. La vérification dans le CGI, le BOFiP et le cours du professeur reste indispensable.
+  </div>
+</div>
+
+</div>
+</div>
+
+<footer>
+  <strong>Projet Fiscalité BIC</strong> — Consultants juniors — Année universitaire 2024-2025<br>
+  Sources : CGI art. 39 quindecies, 39 quaterdecies, 151 septies, 151 septies A, 238 quindecies — BOFiP 2026
+</footer>
+
+<script>
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleQ(btn) {
+  const answer = btn.nextElementSibling;
+  const isOpen = answer.classList.contains('open');
+  document.querySelectorAll('.question-answer').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.question-toggle').forEach(b => b.classList.remove('open'));
+  if (!isOpen) {
+    answer.classList.add('open');
+    btn.classList.add('open');
+  }
+}
+</script>
+</body>
+</html>
